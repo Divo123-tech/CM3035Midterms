@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Dynamic page title using team name -->
+    <title>{{team.name}} Players</title>
+    <style>
+      /* Styling for team name to make it stand out */
+      .team-name {
+        font-weight: bold;
+      }
+
+      /* Flexible container for individual player details */
+      .player-container {
+        display: flex;
+        gap: 8px;
+        margin: 10px;
+        height: fit-content;
+        align-items: center;
+      }
+
+      /* Vertical layout for players list */
+      .players-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Emphasize player name */
+      .player-name {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Display team name as main heading -->
+    <h1 class="team-name">{{team.name}}</h1>
+
+    <!-- Link to API view of team players -->
+    <p>
+      For API view click <a href="/api/teams/{{team.code}}/players">here</a>
+    </p>
+
+    <!-- Load humanize template tag for number formatting -->
+    {% load humanize %}
+
+    <!-- Display team payroll with comma-separated formatting -->
+    <p class="payroll">Payroll: ${{ team.payroll|intcomma }}</p>
+
+    <!-- Button to navigate to free agents page -->
+    <a href="/free-agents"><button>Sign Free Agents</button></a>
+
+    <!-- Container for player list -->
+    <div class="players-container">
+      <!-- Iterate through players on the team -->
+      {% for player in players %}
+      <div class="player-container" id="{{player.id}}">
+        <!-- Display player name -->
+        <p class="player-name">{{player.name}}</p>
+
+        <!-- Display player salary with comma-separated formatting -->
+        {% load humanize %}
+        <p>Salary: ${{player.salary|intcomma}}</p>
+
+        <!-- Button to cut (release) the player -->
+        <button onclick="cutPlayer({{player.id}})">Cut Player</button>
+      </div>
+
+      <!-- Fallback message if no players exist -->
+      {% empty %}
+      <p>No teams available.</p>
+      {% endfor %}
+    </div>
+
+    <script>
+      // Function to handle cutting (releasing) a player
+      function cutPlayer(playerId) {
+        // Confirm player cut action with user
+        const confirmCut = confirm("Are you sure you want to cut this player?");
+
+        // Exit if user cancels
+        if (!confirmCut) return;
+
+        // Send PATCH request to update player's free agent status
+        fetch(`http://localhost:8000/api/player/${playerId}/FA`, {
+          method: "PATCH",
+          // Send free_agent status as JSON payload
+          body: JSON.stringify({
+            free_agent: "True",
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+          .then((response) => {
+            // Throw error if request fails
+            if (!response.ok) {
+              throw new Error("Failed to cut player");
+            }
+            return response.json();
+          })
+          .then((data) => {
+            // Log success and alert user
+            console.log("Player successfully cut:", data);
+            alert("Player has been cut!");
+            // Reload page to reflect changes
+            window.location.reload();
+          })
+          .catch((error) => {
+            // Handle and display any errors
+            console.error("Error:", error);
+            alert("Failed to cut player");
+          });
+      }
+    </script>
+  </body>
+</html>

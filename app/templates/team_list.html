@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Page title for team list view -->
+    <title>All Teams</title>
+    <style>
+      /* Remove default link styling to create a clickable card */
+      .link {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* Flexible container for team cards */
+      .teams-container {
+        display: flex;
+        flex-wrap: wrap;
+        margin: 10px;
+      }
+
+      /* Individual team card styling */
+      .team-container {
+        width: 250px; /* Fixed width for consistent card size */
+        padding: 20px; /* Interior spacing */
+        background-color: #fff; /* White background */
+        border-radius: 10px; /* Rounded corners for modern look */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+        margin: 20px; /* Space between cards */
+        transition: transform 0.3s ease-in-out; /* Smooth hover effect */
+      }
+
+      /* Hover effect to provide visual feedback */
+      .team-container:hover {
+        transform: scale(1.05); /* Slightly enlarge card on hover */
+      }
+
+      /* Styling for team name */
+      .team-name {
+        font-size: 18px; /* Larger font size */
+        font-weight: bold; /* Emphasize team name */
+        color: #333; /* Dark gray for readability */
+        margin-bottom: 10px; /* Space below team name */
+      }
+
+      /* Styling for team payroll information */
+      .payroll {
+        font-size: 16px; /* Moderate font size */
+        color: #555; /* Slightly lighter gray */
+        margin-bottom: 15px; /* Space below payroll */
+      }
+
+      /* Styling for action text */
+      .actions {
+        font-size: 14px; /* Smaller font size */
+        color: #007bff; /* Bright blue for visual interest */
+        cursor: pointer; /* Indicate clickability */
+        text-decoration: underline; /* Underline to suggest link */
+      }
+
+      /* Hover effect for action text */
+      .actions:hover {
+        color: #0056b3; /* Darker blue on hover */
+        text-decoration: none; /* Remove underline on hover */
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Main heading for the page -->
+    <h1>List of Teams</h1>
+
+    <!-- Link to API view of teams -->
+    <p>For API view click <a href="/api/teams">here</a></p>
+
+    <!-- Container for team cards -->
+    <div class="teams-container">
+      <!-- Iterate through teams -->
+      {% for team in teams %}
+      <!-- Create a link to the team's player page -->
+      <a href="/teams/{{team.code}}/players" class="link">
+        <div class="team-container">
+          <!-- Display team name and code -->
+          <p class="team-name">{{team.name}} ({{team.code}})</p>
+
+          <!-- Load humanize for number formatting -->
+          {% load humanize %}
+
+          <!-- Display team payroll with comma-separated formatting -->
+          <p class="payroll">Payroll: ${{ team.payroll|intcomma }}</p>
+
+          <!-- Hint text for user interaction -->
+          <p class="actions">Click for more actions!</p>
+        </div>
+      </a>
+
+      <!-- Fallback message if no teams exist -->
+      {% empty %}
+      <p>No teams available.</p>
+      {% endfor %}
+    </div>
+  </body>
+</html>

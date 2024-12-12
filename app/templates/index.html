@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home</title>
+
+    </style>
+  </head>
+  <body>
+    <h1>API Endpoints</h1>
+    <p>Python Version: 3.11.7</p>
+    <p>Djago Version: 5.1.4</p>
+    <p>packages:<ul>
+        <li>django-cors-headers: 4.6.0</li>
+        <li>asgiref: 3.8.1</li>
+        <li>djangorestframework: 3.15.2</li>
+        <li>sqlparse:0.5.3</li>
+        <li>tzdata:2024.2</li>
+    </ul></p>
+    <p>Admin site username: admin</p>
+    <p>Admin site password: password</p>
+    <h4>Routes</h4>
+    <ul>
+        <li>GET: <code>/api/teams</code> - Get a list of all teams along with their total payrolls. <a href="/api/teams">here</a></li>
+        <li>(PAGE): <code>/teams</code> - Render an HTML page listing all teams.<a href="/teams">here</a></li>
+        <li>GET: <code>/api/teams/&lt;team_code&gt;/players</code> - Get a list of players for a specific team.<a href="/api/teams/PHO/players">here</a></li>
+        <li>(PAGE): <code>/teams/&lt;team_code&gt;/players</code> - Render an HTML page with a list of players for a specific team.<a href="/teams/PHO/players">here</a></li>
+        <li>PATCH: <code>/api/player/&lt;player_id&gt;/FA</code> - Cut a player and make them a free agent.<a href="api/player/1/FA">here</a></li>
+        <li>GET: <code>/api/free-agents</code> - Get a list of all free agents.<a href="/api/free-agents">here</a></li>
+        <li>(PAGE): <code>/free-agents</code> - Render an HTML page listing all free agents.<a href="/free-agents">here</a></li>
+        <li>PATCH: <code>/api/player/&lt;player_id&gt;</code> - Sign a player to a team via API.<a href="/api/player/1">here</a></li>
+        <li>(PAGE): <code>/player/&lt;player_id&gt;</code> - Render an HTML page to sign a player to a team.<a href="/player/1">here</a></li>
+        <li>POST: <code>/api/player/create</code> - Create a new player via API.<a href="/api/player/create">here</a></li>
+        <li>(PAGE): <code>/player/create</code> - Render an HTML page to create a new player.<a href="/player/create">here</a></li>
+      </ul>
+</body>
+</html>

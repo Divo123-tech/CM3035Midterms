@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- Ensure proper rendering on mobile devices -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Free Agents</title>
+    <style>
+      /* Flexbox layout for individual player display */
+      .player-container {
+        display: flex;
+        gap: 8px;
+        margin: 10px;
+        height: fit-content;
+        align-items: center;
+      }
+
+      /* Vertical layout for multiple players */
+      .players-container {
+        display: flex;
+        flex-direction: column;
+      }
+
+      /* Emphasize player name with bold styling */
+      .player-name {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Dynamically display the player's name as the page heading -->
+    <h1>{{ player.name }}</h1>
+
+    <!-- Link to the player's API endpoint for additional details -->
+    <p>For API view click <a href="/api/player/{{player.id}}">here</a></p>
+
+    <!-- Form to sign the free agent player -->
+    <form method="POST" action="{% url 'sign-player' player.id %}">
+      <!-- CSRF protection token to prevent cross-site request forgery -->
+      {% csrf_token %}
+
+      <!-- Render form fields dynamically -->
+      {{ form.as_p }}
+
+      <!-- Submit button to sign the free agent -->
+      <button type="submit">Sign Free Agent</button>
+    </form>
+  </body>
+</html>

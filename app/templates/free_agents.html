@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Meta tags for character encoding and viewport settings for responsiveness -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Title of the webpage -->
+    <title>Free Agents</title>
+
+    <style>
+      /* Styling for the player container, setting display to flex for horizontal layout */
+      .player-container {
+        display: flex;
+        gap: 8px; /* Space between player name and salary */
+        margin: 10px; /* Margin around each player entry */
+        height: fit-content; /* Container adjusts height to fit content */
+        align-items: center; /* Vertically centers items in the container */
+      }
+
+      /* Styling for the overall container that holds all player entries */
+      .players-container {
+        display: flex;
+        flex-direction: column; /* Stacks players vertically */
+      }
+
+      /* Bold styling for player names */
+      .player-name {
+        font-weight: bold;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Main header for the page -->
+    <h1>All Free Agents</h1>
+
+    <!-- Link to the API view for free agents -->
+    <p>For API view click <a href="/api/free-agents">here</a></p>
+
+    <!-- Loop that iterates over the 'players' list and displays each player's information -->
+    {% for player in players %}
+    <div class="player-container" id="{{player.id}}">
+      <!-- Display the player's name in bold -->
+      <p class="player-name">{{player.name}}</p>
+
+      <!-- Using Django's 'humanize' filter to format the salary with commas -->
+      {% load humanize %}
+      <p>Previous Salary: ${{player.salary|intcomma}}</p>
+
+      <!-- Button to sign the free agent, which links to the player's specific page -->
+      <a href="/player/{{player.id}}"><button>Sign Free Agent</button></a>
+    </div>
+
+    <!-- If no players exist, display this message -->
+    {% empty %}
+    <p>No Free Agents Available.</p>
+    {% endfor %}
+  </body>
+</html>
